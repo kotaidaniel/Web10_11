@@ -1,17 +1,36 @@
 <?php
-    $username = "root";
-    $password = "";
-    $dbname = "webshop";
-    $servername = "localhost";
+class dbManager{
 
-    $conn = mysqli_connect($servername, $password, $dbname, $servername);
+	var $username = "root";
+    var $password = "";
+    var $dbname = "webshop";
+    var $servername = "localhost";
+	var $conn;
 
-    if($conn ->connect_error){
-        die("fail".$conn->connect_error);
-    }
+	function connect(){		
+    $this->conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+	
 
-    $sql = "SELLECT * from products";
-    $result = $conn->query($sql);
-    var_dump($result);
+		if($this->conn->connect_error){
+			die("fail".$this->conn->connect_error);
+		}
+	
+	}
+	function close(){
+		$this->conn->close();		
+	}
+	function query(){
+		$sql = "SELECT * from products";
+		$result = $this->conn->query($sql);
+		var_dump($result);
+		
+	}
+
+}
+
+	$dbInstance = new dbManager();
+	$dbInstance->connect();
+	$dbInstance->query();
+	$dbInstance->close();
 
 ?>
